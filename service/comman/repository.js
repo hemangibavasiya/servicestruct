@@ -27,8 +27,10 @@ const inserData = async (tableName, data) => {
             Item: data
         }
         const response = await dynamoDb.put(params)
+        console.log('response of table', response)
         return response
     } catch(err) {
+        console.log(err, 'db err')
         throw err
     }
 }

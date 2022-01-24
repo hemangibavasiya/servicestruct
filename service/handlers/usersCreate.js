@@ -1,14 +1,14 @@
 const UserTable = process.env.USER_TABLE
 const { inserData } = require('../comman/repository')
 
-const insertUserDetails =  (event, context, callback) => {
+const insertUserDetails = async  (event, context, callback) => {
     const data = JSON.parse(event.body);
   
     const items = {
         id: data.id,
         name: data.name
     }
-    const response = inserData(UserTable, items)
+    const response = await inserData(UserTable, items)
     callback(null, response);
       // const params = {
     //     TableName: UserTable,
