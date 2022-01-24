@@ -49,7 +49,7 @@ functions:
           path: demogetapi
           method: get
   createUser:
-    handler: handlers/userCreate.insertUserDetails
+    handler: handlers/usersCreate.insertUserDetails
     memorySize: 128
     description: This API for Inserting data on users-dev table.
     events:
