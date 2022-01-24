@@ -41,7 +41,7 @@ provider:
 
 functions:
   demogetapi:
-    handler: ../handlers/demogetapi.demogetapi
+    handler: handlers/demogetapi.demogetapi
     memorySize: 128
     description: It's a demo API
     events:
@@ -49,7 +49,7 @@ functions:
           path: demogetapi
           method: get
   createUser:
-    handler: ../handlers/userCreate.insertUserDetails
+    handler: handlers/userCreate.insertUserDetails
     memorySize: 128
     description: This API for Inserting data on users-dev table.
     events:
