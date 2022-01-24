@@ -1,0 +1,34 @@
+const UserTable = process.env.USER_TABLE
+const { inserData } = require('../comman/repository')
+
+const insertUserDetails =  (event, context, callback) => {
+    const data = JSON.parse(event.body);
+  
+    const items = {
+        id: data.id,
+        name: data.name
+    }
+    const response = inserData(UserTable, items)
+    callback(null, response);
+      // const params = {
+    //     TableName: UserTable,
+    //     Item: {
+    //         id: data.id,
+    //         name: data.name
+    //     }
+    // }
+    // dynamoDb.put(params, (err) => {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     const response = {
+    //         statusCode: 200,
+    //         body: JSON.stringify(params.Item),
+    //     };
+    //     callback(null, response);
+    // });
+}
+
+module.exports = {
+    insertUserDetails
+}

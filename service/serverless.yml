@@ -21,20 +21,59 @@ service: tempservice
 # Check out our docs for more details
 frameworkVersion: '2'
 
+custom:
+  tableName: 'users-${self:provider.stage}'
+
 provider:
   name: aws
   runtime: nodejs12.x
+  stage: dev
   lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:PutItem"
+      Resource:
+        - { "Fn::GetAtt": ["UserTable", "Arn" ] }
+
+  environment:
+      USER_TABLE: ${self:custom.tableName}
 
 functions:
   demogetapi:
-    handler: handler.demogetapi
+    handler: handlers/demogetapi.demogetapi
     memorySize: 128
     description: It's a demo API
     events:
       - http:
           path: demogetapi
           method: get
+  createUser:
+    handler: handlers/userCreate.insertUserDetails
+    memorySize: 128
+    description: This API for Inserting data on users-dev table
+    events:
+      - http:
+          path: add/user
+          method: post
+
+resources:
+  Resources:
+    UserTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
 
 # you can overwrite defaults here
 #  stage: dev
