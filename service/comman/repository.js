@@ -30,10 +30,10 @@ const inserData = async (tableName, data) => {
             if (err) {
                 console.log(err);
             }
-            return Promise.resolve({
+            return {
                 statusCode: 200,
                 body: JSON.stringify(params.Item),
-            })  
+            } 
             
         })
         // const response = await dynamoDb.put(params)
