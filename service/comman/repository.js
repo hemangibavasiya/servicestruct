@@ -26,16 +26,31 @@ const inserData = async (tableName, data) => {
             TableName: tableName,
             Item: data
         }
-        dynamoDb.put(params, (err) => {
+        const response = new Promise ( function(resolve, reject)  {
+            dynamoDb.put(params, (err) => {
             if (err) {
-                console.log(err);
+                reject(Error(err))
+            } else {
+                resolve({
+                    statusCode: 200,
+                    body: JSON.stringify(params.Item),
+                } )
             }
-            return {
-                statusCode: 200,
-                body: JSON.stringify(params.Item),
-            } 
-            
+
         })
+
+        })
+        return response
+        // dynamoDb.put(params, (err) => {
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        //     return {
+        //         statusCode: 200,
+        //         body: JSON.stringify(params.Item),
+        //     } 
+            
+        // })
         // const response = await dynamoDb.put(params)
         // console.log('response of table', response)
         // return response
