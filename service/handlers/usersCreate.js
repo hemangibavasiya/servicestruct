@@ -10,11 +10,8 @@ const insertUserDetails = async  (event, context, callback) => {
     }
     const response = await inserData(UserTable, items)
 
-    const finalResponse = {
-        statusCode: 200,
-        body: JSON.stringify(response),
-    }
-    callback(null, finalResponse);
+    
+    callback(null, response);
       // const params = {
     //     TableName: UserTable,
     //     Item: {
