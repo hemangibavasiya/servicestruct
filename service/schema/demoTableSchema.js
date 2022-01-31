@@ -40,7 +40,7 @@ const schema = new GraphQLSchema({
                     name: { type: new GraphQLNonNull(GraphQLString) },
                     quantity: { type: new GraphQLNonNull(GraphQLInt) },
                     createdAt: Date.now(),
-                    id: uuid.v1(),
+                    id: uuid.v1()
                 },
                 type: tableType,
                 resolve: (parent, args) => insertData(process.env.Table_Name, args)
