@@ -109,8 +109,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
 
-plugins:
-  - serverless-offline
+# plugins:
+#   - serverless-offline
 
 # you can overwrite defaults here
 #  stage: dev
