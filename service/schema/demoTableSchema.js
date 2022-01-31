@@ -1,5 +1,7 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLList, GraphQLBoolean } = require("graphql");
 const { list, viewRecordBasedOnQuery, insertData, removeRecord } = require("../comman/repository");
+const uuid = require('uuid');
+
 
 const tableType = new GraphQLObjectType({
     name: process.env.Table_Name,
@@ -36,7 +38,9 @@ const schema = new GraphQLSchema({
             createRecord: {
                 args: {
                     name: { type: new GraphQLNonNull(GraphQLString) },
-                    quantity: { type: new GraphQLNonNull(GraphQLInt) }
+                    quantity: { type: new GraphQLNonNull(GraphQLInt) },
+                    createdAt: Date.now(),
+                    id: uuid.v1(),
                 },
                 type: tableType,
                 resolve: (parent, args) => insertData(process.env.Table_Name, args)
