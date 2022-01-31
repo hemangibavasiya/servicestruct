@@ -78,7 +78,7 @@ functions:
           method: post
           cors: true
     environment:
-      Table_Name: demoTable-${self:provider.stage}
+      Table_Name: demoTable${self:provider.stage}
 
 resources:
   Resources:
@@ -100,7 +100,7 @@ resources:
     DemoTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: demoTable-${self:provider.stage}
+        TableName: demoTable${self:provider.stage}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
@@ -108,7 +108,7 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-            
+
 # plugins:
 #   - graphql
 # plugins:
