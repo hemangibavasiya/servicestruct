@@ -23,6 +23,16 @@ frameworkVersion: '2'
 
 custom:
   tableName: 'users-${self:provider.stage}'
+  demoTable:
+    name: !Ref demoTable
+    arn: !GetAtt demoTable.Arn
+  bundle:
+    linting: false
+  # serverless-offline:
+  #   # httpsProtocol: "dev-certs"
+  #   httpPort: 4000
+  #   stageVariables:
+  #     foo: "bar"
 
 provider:
   name: aws
@@ -33,6 +43,9 @@ provider:
     - Effect: "Allow"
       Action:
         - "dynamodb:PutItem"
+        - "dynamodb:Scan"
+        - "dynamodb:GetItem"
+        - "dynamodb:DeleteItem"
       Resource:
         - { "Fn::GetAtt": ["UserTable", "Arn" ] }
 
@@ -56,6 +69,16 @@ functions:
       - http:
           path: add/user
           method: post
+  graphQLDemo:
+    handler: handlers/graphqlDemo.main
+    memorySize: 128
+    events:
+      - http:
+          path: /democrud
+          method: post
+          cors: true
+    environment:
+      Table_Name: demoTable-${self:provider.stage}
 
 resources:
   Resources:
@@ -74,6 +97,20 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.tableName}
+    DemoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: demoTable-${self:provider.stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+plugins:
+  - serverless-offline
 
 # you can overwrite defaults here
 #  stage: dev
@@ -155,7 +192,7 @@ resources:
 # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
-#    NewResource:
+#    NewResource: 
 #      Type: AWS::S3::Bucket
 #      Properties:
 #        BucketName: my-new-bucket

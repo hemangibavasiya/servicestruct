@@ -1,11 +1,16 @@
 const UserTable = process.env.USER_TABLE
-const { inserData } = require('../comman/repository')
+const { insertData } = require('../comman/repository')
 
 const insertUserDetails = async (event, context, callback) => {
-    const response  = new Promise(async function (resolve, reject) {
-        const data = JSON.parse(event.body);
-        const response = await inserData(UserTable, data)
-        resolve({ statusCode: 200, body: response.data })
+    const response = new Promise(async function (resolve, reject) {
+        try {
+            const data = JSON.parse(event.body);
+            const response = await insertData(UserTable, data)
+            resolve({ statusCode: 200, body: response.data })
+        } catch (err) {
+            reject(err)
+        }
+
     })
     return response
 }
