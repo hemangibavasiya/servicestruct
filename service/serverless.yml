@@ -108,7 +108,8 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-
+plugins:
+  - graphql
 # plugins:
 #   - serverless-offline
 
