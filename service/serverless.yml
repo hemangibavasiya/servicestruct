@@ -46,6 +46,10 @@ provider:
         - "dynamodb:Scan"
         - "dynamodb:GetItem"
         - "dynamodb:DeleteItem"
+        - logs:CreateLogGroup,
+        - logs:CreateLogStream,
+        - logs:PutLogEvents,
+        - logs:DescribeLogStreams
       Resource:
         - { "Fn::GetAtt": ["UserTable", "Arn" ] }
 
