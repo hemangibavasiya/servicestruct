@@ -16,7 +16,7 @@ const insertData = async (tableName, data) => {
             TableName: tableName,
             Item: data
         }
-        console.log(params)
+        console.log('--------------------params',params)
         // const response = new Promise(function (resolve, reject) {
         //     dynamoDb.put(params, (err) => {
         //         if (err) {
