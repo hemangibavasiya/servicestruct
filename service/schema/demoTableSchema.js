@@ -38,12 +38,12 @@ const schema = new GraphQLSchema({
             createRecord: {
                 args: {
                     name: { type: new GraphQLNonNull(GraphQLString) },
-                    quantity: { type: new GraphQLNonNull(GraphQLInt) },
-                    createdAt: Date.now(),
-                    id: uuid.v1()
+                    quantity: { type: new GraphQLNonNull(GraphQLInt) }
                 },
+                // args['createdAt']: Date.now(),
+                // args['id']: uuid.v1(),
                 type: tableType,
-                resolve: (parent, args) => insertData(process.env.Table_Name, args)
+                resolve: (parent, args) => insertData(process.env.Table_Name, Object.assign(args, {'createdAt': Date.now(), id: uuid.v1()}))
             },
             removeDetails: {
                 args: {
