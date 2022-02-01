@@ -6,10 +6,10 @@ const uuid = require('uuid');
 const tableType = new GraphQLObjectType({
     name: process.env.Table_Name,
     Item: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
+        // id: { type: new GraphQLNonNull(GraphQLString) },
         name: { type: new GraphQLNonNull(GraphQLString) },
         quantity: { type: new GraphQLNonNull(GraphQLInt) },
-        createdAt: { type: new GraphQLNonNull(GraphQLString) }
+        // createdAt: { type: new GraphQLNonNull(GraphQLString) }
     }
 })
 
@@ -44,7 +44,7 @@ const schema = new GraphQLSchema({
                 // args['id']: uuid.v1(),
                 type: tableType,
                 // Object.assign(args, {'createdAt': Date.now(), id: uuid.v1()})
-                resolve: (parent, args) => insertData(process.env.Table_Name, {'name': args.name, 'quantity': args.quantity, 'createdAt': Date.now(), id: uuid.v1() } )
+                resolve: (parent, args) => insertData(process.env.Table_Name, {'name': args.name, 'quantity': args.quantity } )
             },
             removeDetails: {
                 args: {
