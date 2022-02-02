@@ -23,9 +23,9 @@ const insertData = async (tableName, data) => {
                 } else {
                                             
 
-                    return resolve({
-                        data: JSON.stringify(params.Item),
-                    })
+                    return resolve(
+                        params.Item
+                    )
                 }
             })
         })
