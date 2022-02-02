@@ -86,7 +86,12 @@ const removeRecord = async (tableName, id) => {
                 id
             }
         }
-        return await dynamoDb.delete(params).promise()
+        const response =  await dynamoDb.delete(params).promise().then(result => result)
+        if(!!response) {
+            return true
+        } else {
+            return false
+        }
     } catch (error) {
         throw error
     }
