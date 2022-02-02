@@ -23,7 +23,7 @@ const schema = new GraphQLSchema({
                     quantity: { type: new GraphQLNonNull(GraphQLInt) }
                 },
                 type: tableType,
-                resolve: (parent, args) => insertData(process.env.Table_Name, Object.assign(args, {'createdAt': Date.now(), id: uuid.v1()}) )
+                resolve: (parent, args) => insertData(process.env.Table_Name, Object.assign(args, {'createdAt': Date.now().toString(), id: uuid.v1()}) )
             },
             removeDetails: {
                 args: {

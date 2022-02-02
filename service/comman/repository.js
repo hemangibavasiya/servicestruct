@@ -17,24 +17,27 @@ const insertData = async (tableName, data) => {
             Item: data
         }
         console.log('--------------------params',params)
-        // const response = new Promise(function (resolve, reject) {
-        //     dynamoDb.put(params, (err) => {
-        //         if (err) {
-        //             reject(Error(err))
-        //         } else {
-        //             resolve({
-        //                 data: JSON.stringify(params.Item),
-        //             })
-        //         }
-        //     })
-        // })
-        // return response
-        return dynamoDb.put(params).promise().then(
-            result => {
-                result.Item
-                console.log(result)
-            } 
-        )
+        const response = new Promise(function (resolve, reject) {
+            dynamoDb.put(params, (err) => {
+                if (err) {
+                    console.log('error---------------', err)
+                    reject(Error(err))
+                } else {
+                                            console.log('is in resolve function')
+
+                    resolve({
+                        data: JSON.stringify(params.Item),
+                    })
+                }
+            })
+        })
+        return response
+        // return dynamoDb.put(params).promise().then(
+        //     result => {
+        //         console.log(result)
+        //         result.Item
+        //     } 
+        // )
     } catch (err) {
         console.log(err, 'db err')
         throw err
