@@ -3,11 +3,13 @@ const { schema } = require("../schema/demoTableSchema")
 
 const main = (event, context, callback) => {
     return new Promise(async (resolve, reject) => {
-        console.log('event.-----------------', event.body)
-        graphql(schema, event.body).then(
-            result => resolve({ status: 200, body: JSON.stringify(result) },
+        graphql(schema, JSON.parse(event.body).query).then(
+            result => {
+                
+                resolve({ status: 200, body: JSON.stringify(result) },
                 error => reject({ errorMessage: error })
-            ))
+                )}
+        ) 
     })
 }
 

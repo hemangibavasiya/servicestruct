@@ -1,20 +1,39 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLList, GraphQLBoolean } = require("graphql");
-const { list, viewRecordBasedOnQuery, removeRecord } = require("../comman/repository");
+const { list, viewRecordBasedOnQuery, removeRecord, insertData } = require("../comman/repository");
 const uuid = require('uuid');
-const { addProductData } = require("../comman/validators");
 
 
 const tableType = new GraphQLObjectType({
     name: process.env.Table_Name,
-    Item: {
+    fields: () => ({
         id: { type: new GraphQLNonNull(GraphQLString) },
-        name: { type: new GraphQLNonNull(GraphQLString) },
+        name: { type: new  GraphQLNonNull(GraphQLString) },
         quantity: { type: new GraphQLNonNull(GraphQLInt) },
         createdAt: { type: new GraphQLNonNull(GraphQLString) }
-    }
+    })
 })
 
 const schema = new GraphQLSchema({
+    mutation: new GraphQLObjectType({
+        name: 'Mutation',
+        fields: () => ({
+            createRecord: {
+                args: {
+                    name: {  type: new GraphQLNonNull(GraphQLString) },
+                    quantity: { type: new GraphQLNonNull(GraphQLInt) }
+                },
+                type: tableType,
+                resolve: (parent, args) => insertData(process.env.Table_Name, Object.assign(args, {'createdAt': Date.now(), id: uuid.v1()}) )
+            },
+            removeDetails: {
+                args: {
+                    id: { type: new GraphQLNonNull(GraphQLString) }
+                },
+                type: GraphQLBoolean,
+                resolve: (parent, args) => removeRecord(process.env.Table_Name, args.id)
+            }
+        })
+    }),
     query: new GraphQLObjectType({
         name: 'Query',
         fields: {
@@ -32,30 +51,8 @@ const schema = new GraphQLSchema({
                 resolve: (parent, args) => viewRecordBasedOnQuery(process.env.Table_Name, args.id)
             }
         }
-    }),
-    mutation: new GraphQLObjectType({
-        name: 'Mutation',
-        fields: {
-            createRecord: {
-                args: {
-                    name: { type: new GraphQLNonNull(GraphQLString) },
-                    quantity: { type: new GraphQLNonNull(GraphQLInt) }
-                },
-                // args['createdAt']: Date.now(),
-                // args['id']: uuid.v1(),
-                type: tableType,
-                // Object.assign(args, {'createdAt': Date.now(), id: uuid.v1()})
-                resolve: (parent, args) => addProductData(process.env.Table_Name, args )
-            },
-            removeDetails: {
-                args: {
-                    id: { type: new GraphQLNonNull(GraphQLString) }
-                },
-                type: GraphQLBoolean,
-                resolve: (parent, args) => removeRecord(process.env.tableType, args.id)
-            }
-        }
     })
+    
 })
 
 module.exports = {

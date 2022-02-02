@@ -43,6 +43,7 @@ const insertData = async (tableName, data) => {
 
 const list = async (tableName) => {
     try {
+        console.log(tableName)
         const params = {
             TableName: tableName
         }
