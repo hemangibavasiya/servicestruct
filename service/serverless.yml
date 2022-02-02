@@ -51,8 +51,8 @@ provider:
         - logs:PutLogEvents,
         - logs:DescribeLogStreams
       Resource:
-        - { "Fn::GetAtt": ["UserTable", "Arn" ] }
-        - { "Fn::GetAtt": ["DemoTable", "Arn" ] }
+        - { "Fn::GetAtt": ["DatabaseTable", "Arn" ] }
+
 
   environment:
       USER_TABLE: ${self:custom.tableName}
@@ -87,32 +87,33 @@ functions:
 
 resources:
   Resources:
-    UserTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: id
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.tableName}
-    DemoTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: demoTable${self:provider.stage}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
+    DatabaseTable:
+      UserTable:
+        Type: 'AWS::DynamoDB::Table'
+        Properties:
+          AttributeDefinitions:
+            -
+              AttributeName: id
+              AttributeType: S
+          KeySchema:
+            -
+              AttributeName: id
+              KeyType: HASH
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+          TableName: ${self:custom.tableName}
+      DemoTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          TableName: demoTable${self:provider.stage}
+          BillingMode: PAY_PER_REQUEST
+          AttributeDefinitions:
+            - AttributeName: id
+              AttributeType: S
+          KeySchema:
+            - AttributeName: id
+              KeyType: HASH
 
 # plugins:
 #   - graphql
