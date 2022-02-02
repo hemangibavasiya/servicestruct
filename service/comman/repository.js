@@ -68,7 +68,7 @@ const viewRecordBasedOnQuery = async (tableName, query) => {
     try {
         const params = {
             TableName: tableName,
-            key: {
+            Key: {
                 query
             }
         }
@@ -82,7 +82,7 @@ const removeRecord = async (tableName, query) => {
     try {
         const params = {
             TableName: tableName,
-            key: {
+            Key: {
                 query
             }
         }
