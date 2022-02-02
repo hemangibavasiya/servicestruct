@@ -16,7 +16,6 @@ const insertData = async (tableName, data) => {
             TableName: tableName,
             Item: data
         }
-        console.log('--------------------params',params)
         const response = new Promise(function (resolve, reject) {
             dynamoDb.put(params, (err) => {
                 if (err) {
@@ -30,7 +29,6 @@ const insertData = async (tableName, data) => {
                 }
             })
         })
-        console.log('response-----------', response)
         return response
         // return dynamoDb.put(params).promise().then(
         //     result => {
@@ -46,26 +44,21 @@ const insertData = async (tableName, data) => {
 
 const list = async (tableName) => {
     try {
-        console.log(tableName)
         const params = {
             TableName: tableName
         }
-        const response = new Promise(function (resolve, reject) {
-            dynamoDb.scan(params, (err) => {
+        const response = await new Promise(function (resolve, reject) {
+            dynamoDb.scan(params, (err, result) => {
                 if (err) {
                     return reject(Error(err))
                 } else {
-                                            
-
-                    return resolve({
-                        data: JSON.stringify(params.Item),
-                    })
+                    return resolve(
+                        result.Items
+                    )
                 }
             })
         })
-        console.log('response-----------', response)
         return response
-        // return dynamoDb.scan(params).promise().then(result => result.Items)
     } catch (error) {
         throw error
     }
@@ -79,7 +72,7 @@ const viewRecordBasedOnQuery = async (tableName, query) => {
                 query
             }
         }
-        return dynamoDb.get(params).promise().then(result => result.Item)
+        return await dynamoDb.get(params).promise().then(result => result.Item)
     } catch (error) {
         throw error
     }
@@ -93,7 +86,7 @@ const removeRecord = async (tableName, query) => {
                 query
             }
         }
-        return dynamoDb.delete(params).promise()
+        return await dynamoDb.delete(params).promise()
     } catch (error) {
         throw error
     }
