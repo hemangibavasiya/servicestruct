@@ -17,26 +17,27 @@ const insertData = async (tableName, data) => {
             Item: data
         }
         console.log('--------------------params',params)
-        // const response = new Promise(function (resolve, reject) {
-        //     dynamoDb.put(params, (err) => {
-        //         if (err) {
-        //             return reject(Error(err))
-        //         } else {
+        const response = new Promise(function (resolve, reject) {
+            dynamoDb.put(params, (err) => {
+                if (err) {
+                    return reject(Error(err))
+                } else {
                                             
 
-        //             return resolve({
-        //                 data: JSON.stringify(params.Item),
-        //             })
-        //         }
-        //     })
-        // })
-        // return response
-        return dynamoDb.put(params).promise().then(
-            result => {
-                console.log(result)
-                result.Item
-            } 
-        )
+                    return resolve({
+                        data: JSON.stringify(params.Item),
+                    })
+                }
+            })
+        })
+        console.log('response-----------', response)
+        return response
+        // return dynamoDb.put(params).promise().then(
+        //     result => {
+        //         console.log(result)
+        //         result.Item
+        //     } 
+        // )
     } catch (err) {
         console.log(err, 'db err')
         throw err
@@ -49,7 +50,22 @@ const list = async (tableName) => {
         const params = {
             TableName: tableName
         }
-        return dynamoDb.scan(params).promise().then(result => result.Items)
+        const response = new Promise(function (resolve, reject) {
+            dynamoDb.scan(params, (err) => {
+                if (err) {
+                    return reject(Error(err))
+                } else {
+                                            
+
+                    return resolve({
+                        data: JSON.stringify(params.Item),
+                    })
+                }
+            })
+        })
+        console.log('response-----------', response)
+        return response
+        // return dynamoDb.scan(params).promise().then(result => result.Items)
     } catch (error) {
         throw error
     }
