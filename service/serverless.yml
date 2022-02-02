@@ -38,6 +38,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
+  region: us-east-1
   lambdaHashingVersion: 20201221
   iamRoleStatements:
     - Effect: "Allow"
@@ -50,12 +51,7 @@ provider:
         - logs:CreateLogStream,
         - logs:PutLogEvents,
         - logs:DescribeLogStreams
-      Resource:
-        Fn::Join:
-          - ""
-          - - "arn:aws:dynamodb:*:*:table/"
-          - Ref: UserTable
-          - Ref: DemoTable
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 
   environment:
