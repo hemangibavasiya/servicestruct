@@ -64,12 +64,12 @@ const list = async (tableName) => {
     }
 }
 
-const viewRecordBasedOnQuery = async (tableName, query) => {
+const viewRecordBasedOnQuery = async (tableName, id) => {
     try {
         const params = {
             TableName: tableName,
             Key: {
-                query
+                id
             }
         }
         return await dynamoDb.get(params).promise().then(result => result.Item)
@@ -78,12 +78,12 @@ const viewRecordBasedOnQuery = async (tableName, query) => {
     }
 }
 
-const removeRecord = async (tableName, query) => {
+const removeRecord = async (tableName, id) => {
     try {
         const params = {
             TableName: tableName,
             Key: {
-                query
+                id
             }
         }
         return await dynamoDb.delete(params).promise()
