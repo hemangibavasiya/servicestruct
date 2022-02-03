@@ -85,7 +85,7 @@ functions:
     environment:
       Table_Name: demoTable${self:provider.stage}
     layers:
-      - { Ref: graphQLLayer }
+      - graphQLLayer
 
 # resources:
 #   Resources:
