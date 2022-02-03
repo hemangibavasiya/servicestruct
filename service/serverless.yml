@@ -84,6 +84,8 @@ functions:
           cors: true
     environment:
       Table_Name: demoTable${self:provider.stage}
+    layers:
+      - { Ref: graphQLLayer }
 
 # resources:
 #   Resources:
