@@ -90,9 +90,9 @@ functions:
     layers:
       - arn:aws:lambda:us-east-1:374136397658:layer:graphQLLayer:2
     
-package:
-  exclude:
-    - node_modules/**
+# package:
+#   exclude:
+#     - node_modules/**
 # resources:
 #   Resources:
 #     DatabaseTable:
