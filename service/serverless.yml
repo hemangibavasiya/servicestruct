@@ -55,10 +55,10 @@ provider:
   environment:
       USER_TABLE: ${self:custom.tableName}
 
-layers:
-  graphQLLayer:
-    path: graphQL_layer
-    description: "graphql Dependencies"
+# layers:
+#   graphQLLayer:
+#     path: graphQL_layer
+#     description: "graphql Dependencies"
 
 functions:
   demogetapi:
@@ -88,7 +88,7 @@ functions:
     environment:
       Table_Name: demoTable${self:provider.stage}
     layers:
-      - arn:aws:lambda:us-east-1:374136397658:layer:graphQLLayer:2
+      - arn:aws:lambda:us-east-1:374136397658:layer:graphQLLayer:3
 
 # resources:
 #   Resources:
