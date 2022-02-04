@@ -1,4 +1,4 @@
-const { graphql } = require("graphql")
+const { graphql } = require("graphQLLayer")
 const { schema } = require("../schema/demoTableSchema")
 
 const main = async (event, context, callback) => {
